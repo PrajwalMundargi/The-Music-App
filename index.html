@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Sketch</title>
+
+    <link rel="stylesheet" type="text/css" href="style.css">
+
+    <script src="libraries/p5.min.js"></script>
+    <script src="libraries/p5.sound.min.js"></script>
+  </head>
+
+  <body>
+    <button class="prev">
+      Previous
+    </button>
+    <button class="next">
+      Next
+    </button>
+    <div class="overlay">
+      <input type="range" class="range"/>
+      <p class="title">The song title</p>
+      <p class="singer">singer</p>
+      <button class="play-button">
+        <p>PLAY</p>
+      </button>
+      </div>
+      <audio controls src="jawan.mp3">
+
+      </audio>
+    <script src="sketch.js"></script>
+    <script>
+      let Singer=[
+        "Irshad Kamil",
+        "Sid Sriram",
+        "Raghu Dixit",
+        "Nihal Touro"
+      ]
+      let Titles=[
+        "Jawan",
+        "Kadhal En Kaviye",
+        "Just Math Mathali",
+        "Neene Yendigu"
+      ]
+      let songs = [
+      "jawan.mp3",
+      "Kadhal-En-Kaviye.mp3",
+      "Just Maath Maathali.mp3",
+      "Neene Yendigu.mp3"
+    ];
+    let i = 0;
+
+    let nextbutton = document.querySelector('.next');
+    nextbutton.addEventListener('click', function(){
+      if (i < songs.length - 1) {
+        i++;
+      } else {
+        i = 0;
+      }
+      playsong();
+    });
+
+    let prevbutton = document.querySelector('.prev');
+    prevbutton.addEventListener('click', function(){
+      if (i > 0) {
+        i--;
+      } else {
+        i = songs.length - 1;
+      }
+      playsong();
+    });
+
+    let playButton = document.querySelector('.play-button');
+    let audio = document.querySelector('audio');
+
+    playButton.addEventListener('click', function() {
+      if (audio.paused) {
+        audio.play();
+        playButton.innerHTML = '<p>PAUSE</p>';
+      } else {
+        audio.pause();
+        playButton.innerHTML = '<p>PLAY</p>';
+      }
+    });
+
+    function playsong(){
+      const singer=document.querySelector('.singer');
+      singer.innerHTML=Singer[i]; 
+      const title=document.querySelector('.title');
+      title.innerHTML=Titles[i];
+      const currentSong = songs[i];
+      audio.src = currentSong;
+      audio.play();
+      playButton.innerHTML = '<p>PAUSE</p>';
+    }
+
+    let seekSlider = document.querySelector('.range');
+    audio.addEventListener('timeupdate', function(){
+      seekSlider.value = audio.currentTime;
+    });
+
+    seekSlider.addEventListener('change', function(){
+      audio.currentTime = seekSlider.value;
+    });
+
+    playsong();
+  </script>
+    </script>
+  </body>
+</html>
